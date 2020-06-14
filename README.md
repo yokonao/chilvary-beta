@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+QuestionBankを解きながら学んだことを解説していきます。
