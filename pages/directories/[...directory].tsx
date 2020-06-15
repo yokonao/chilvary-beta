@@ -8,15 +8,23 @@ import { getDirectoryPathArray } from "../../lib/crawler";
 
 export default function Directory(props: {
   currentPath: string[];
-  fileNames: string[];
+  fileData: {
+    title: string;
+    author: string;
+    description: string;
+    fileName: string;
+  }[];
   directoryNames: string[];
 }) {
   const posixCurrentPath = path.join(...props.currentPath);
   return (
     <Layout>
       <Head>
-        <title>{props.currentPath}</title>
+        <title>{props.currentPath.slice(-1)[0]}</title>
       </Head>
+      <div className="container is-fluid mt-4">
+        <div className="title">{props.currentPath.slice(-1)[0]}</div>
+      </div>
       <div className="container is-fluid">
         <div className="columns">
           <div className="column">
@@ -24,16 +32,16 @@ export default function Directory(props: {
               <nav className="panel">
                 <p className="panel-heading">Files</p>
                 <ul>
-                  {props.fileNames.map((fileName) => (
-                    <li className="panel-block" key={fileName}>
+                  {props.fileData.map((data) => (
+                    <li className="panel-block" key={data.fileName}>
                       <span className="panel-icon">
                         <i className="fas fa-file"></i>
                       </span>
                       <Link
                         href="/posts/[...id]"
-                        as={`/${posixCurrentPath}/${fileName}`}
+                        as={`/${posixCurrentPath}/${data.fileName}`}
                       >
-                        <a>{fileName}</a>
+                        <a>{data.title}</a>
                       </Link>
                       <br />
                     </li>
@@ -67,6 +75,29 @@ export default function Directory(props: {
           </div>
         </div>
       </div>
+
+      <div className="container is-fluid px-4 py-4">
+        <div className="columns is-multiline is-vcentered">
+          {props.fileData.map((data) => (
+            <div className="column is-one-third-desktop is-half-tablet">
+              <div className="card">
+                <div className="card-content">
+                  <p className="title">{data.title}</p>
+                  <p>{data.description}</p>
+                </div>
+                <div className="card-footer has-text-justified">
+                  <Link
+                    href="/posts/[...id]"
+                    as={`/${posixCurrentPath}/${data.fileName}`}
+                  >
+                    <a className="button is-fullwidth is-large is-link">View</a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </Layout>
   );
 }
@@ -87,7 +118,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       currentPath: params.directory,
-      fileNames: directoryData.fileNames,
+      fileData: directoryData.fileData,
       directoryNames: directoryData.directoryNames,
     },
   };

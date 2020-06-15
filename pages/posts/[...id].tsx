@@ -9,6 +9,8 @@ export default function Post({
 }: {
   postData: {
     title: string;
+    author: string;
+    description: string;
     contentHtml: string;
   };
 }) {
@@ -17,7 +19,6 @@ export default function Post({
       <Head>
         <title>{postData.title || ''}</title>
       </Head>
-
       <div className="container is-fluid">
         <div className="columns">
           <div className="column is-10-tablet is-offset-1-tablet is-8-desktop is-offset-2-desktop">
