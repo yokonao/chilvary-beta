@@ -47,14 +47,6 @@ export default function RootDirectory(props: { directoryNames: string[] }) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await getDirectoryPathArray();
-  return {
-    paths: paths,
-    fallback: false,
-  };
-};
-
 export const getStaticProps: GetStaticProps = async () => {
   const directoryData = await getDirectoryData([""]);
   return {
