@@ -1,20 +1,20 @@
-import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import remark from "remark";
 import html from "remark-html";
-
-const postsDirectory = path.join(process.cwd(), "posts");
+import { fetchFileContents } from "lib/s3";
 
 export async function getPostData(id: string | string[]) {
-  if ('string' === typeof id) {
-    id += '.md'
-    var fullPath = path.join(postsDirectory, id)
+  if ("string" === typeof id) {
+    id += ".md";
+    var fullPath = id;
   } else {
-    id[id.length-1] += '.md'
-    var fullPath = path.join(postsDirectory, ...id);
+    id[id.length - 1] += ".md";
+    var fullPath = path.join(...id);
   }
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+  // const fileContents = fs.readFileSync(fullPath, "utf8");
+  console.log(fullPath)
+  const fileContents = await fetchFileContents(fullPath);
 
   // Use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);
@@ -29,6 +29,10 @@ export async function getPostData(id: string | string[]) {
   return {
     id,
     contentHtml,
-    ...(matterResult.data as { title: string, author: string, description: string }),
+    ...(matterResult.data as {
+      title: string;
+      author: string;
+      description: string;
+    }),
   };
 }

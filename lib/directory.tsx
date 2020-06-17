@@ -2,27 +2,36 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import remark from "remark";
+import { fetchDirectoryContents, fetchFileContents } from "lib/s3";
 
-
-export function getDirectoryData(directoryPath: string[]) {
-  const directoryFullPath = path.join(process.cwd(), ...directoryPath);
-  const directoryContents = fs.readdirSync(directoryFullPath);
-  const fileNames = directoryContents.filter((name) => name.endsWith(".md"));
-  const nonExtension = fileNames.map((fileName) => {
-    return fileName.replace(/\.md$/, "");
-  });
-  const directoryNames = directoryContents.filter(
-    (name) => !name.endsWith(".md")
-  );
-  const fileData = fileNames.map((fileName) => {
-    const filePath = path.join(directoryFullPath, fileName)
-    const fileContents = fs.readFileSync(filePath, "utf8");
+export async function getDirectoryData(directoryPath: string[]) {
+  let posixPath: string;
+  if (directoryPath[0] == "") {
+    posixPath = "";
+  } else {
+    posixPath = path.join(...directoryPath, "/");
+  }
+  const directoryContents = await fetchDirectoryContents(posixPath);
+  const files = directoryContents.files;
+  const result = files.map(async (file) => {
+    const filePosixPath = path.join(...file) + ".md";
+    const fileContents = await fetchFileContents(filePosixPath);
     const matterResult = matter(fileContents);
     return {
-      fileName: fileName.replace(/\.md$/, ""),
-      ...(matterResult.data as { title: string, author: string, description: string }),
-    }
-  })
+      fileName: file[file.length - 1],
+      ...(matterResult.data as {
+        title: string;
+        author: string;
+        description: string;
+      }),
+    };
+  });
+  const fileData = await Promise.all(result);
+
+  const directories = directoryContents.directories;
+  const directoryNames = directories.map((dir) => {
+    return dir[dir.length - 1];
+  });
 
   return {
     fileData: fileData,

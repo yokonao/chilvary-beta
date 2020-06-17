@@ -23,7 +23,7 @@ export default function Home() {
             <div className="subtitle is-3">
               MeDical notebooks using Mark Down
             </div>
-            <Link href="/directories/posts">
+            <Link href="/directories">
               <a className="button is-dark is-outlined is-inverted is-large">
                 Get Started
               </a>

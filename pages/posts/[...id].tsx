@@ -31,7 +31,7 @@ export default function Post({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getFilePathArray();
+  const paths = await getFilePathArray();
   return {
     paths: paths,
     fallback: false,

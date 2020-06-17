@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import path from "path";
 import { getDirectoryPathArray } from "../../lib/crawler";
+import { fetchDirectoryContents } from "lib/s3";
 
 export default function Directory(props: {
   currentPath: string[];
@@ -88,7 +89,7 @@ export default function Directory(props: {
                 <div className="card-footer has-text-justified">
                   <Link
                     href="/posts/[...id]"
-                    as={`/${posixCurrentPath}/${data.fileName}`}
+                    as={`/posts/${posixCurrentPath}/${data.fileName}`}
                   >
                     <a className="button is-fullwidth is-large is-link">View</a>
                   </Link>
@@ -103,7 +104,7 @@ export default function Directory(props: {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getDirectoryPathArray();
+  const paths = await getDirectoryPathArray();
   return {
     paths: paths,
     fallback: false,
@@ -114,7 +115,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if ("string" === typeof params.directory) {
     params.directory = [params.directory];
   }
-  const directoryData = getDirectoryData(params.directory);
+  const directoryData = await getDirectoryData(params.directory);
   return {
     props: {
       currentPath: params.directory,
