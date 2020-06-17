@@ -1,46 +1,45 @@
-import path from "path";
+import { toPosix } from "lib/converter";
 import { fetchDirectoryContents } from "lib/s3";
+import { FileSystemCredentials } from "aws-sdk";
 
-async function postsCrawler() {
-  var directoriesPathArray: string[][];
-  var filePathArray: string[][];
-  filePathArray = []; // start from root directory, all article files are in posts directory
-  directoriesPathArray = [[""]];
-  for (var dir of directoriesPathArray) {
-    var posixPath: string;
-    if (dir[0] == "") {
-      posixPath = "";
-    } else {
-      posixPath = path.join(...dir, "/");
-    }
+async function listAllFilesAndDirectories() {
+  const directoryArrayPaths: string[][] = [];
+  const fileArrayPaths: string[][] = [];
+  const queue: string[][] = [[""]]; //corresponding to root directory
+
+  while (queue.length != 0) {
+    const searchDirectory = queue.shift();
+    const posixPath = toPosix(searchDirectory, "/");
     const directoryContents = await fetchDirectoryContents(posixPath);
-    for (var newDir of directoryContents.directories) {
-      directoriesPathArray.push(newDir);
-    }
-    filePathArray = [...filePathArray, ...directoryContents.files];
+
+    queue.concat(directoryContents.directories);
+    directoryArrayPaths.concat(directoryContents.directories);
+    fileArrayPaths.concat(directoryContents.files);
   }
+
   return {
-    files: filePathArray,
-    directories: directoriesPathArray,
+    files: fileArrayPaths,
+    directories: directoryArrayPaths,
   };
 }
-export async function getFilePathArray() {
-  const files = (await postsCrawler()).files;
-  return files.map((filePath) => {
+
+export async function listFileArrayPaths() {
+  const files = (await listAllFilesAndDirectories()).files;
+  return files.map((arrayPath) => {
     return {
       params: {
-        id: filePath,
+        id: arrayPath,
       },
     };
   });
 }
 
-export async function getDirectoryPathArray() {
-  const directories = (await postsCrawler()).directories;
-  return directories.map((dirPath) => {
+export async function listDirectoryArrayPaths() {
+  const directories = (await listAllFilesAndDirectories()).directories;
+  return directories.map((arrayPath) => {
     return {
       params: {
-        directory: dirPath,
+        directory: arrayPath,
       },
     };
   });
