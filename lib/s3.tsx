@@ -3,6 +3,8 @@ import { StringDecoder } from "string_decoder";
 
 const decoder = new StringDecoder("utf8");
 
+AWS.config.accessKeyId = process.env.MY_AWS_ACCESS_KEY_ID;
+AWS.config.secretAccessKey = process.env.MY_AWS_SECRET_ACCESS_KEY;
 AWS.config.region = "ap-northeast-1";
 AWS.config.apiVersions = {
   s3: "2006-03-01",
