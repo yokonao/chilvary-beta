@@ -105,6 +105,10 @@ export default function Directory(props: {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getDirectoryPathArray();
+  paths.shift()
+  paths.map(path => {
+    console.log(path.params.directory)
+  })
   return {
     paths: paths,
     fallback: false,
