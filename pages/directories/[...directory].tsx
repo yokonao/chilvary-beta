@@ -4,8 +4,7 @@ import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
 import path from "path";
-import { getDirectoryPathArray } from "../../lib/crawler";
-import { fetchDirectoryContents } from "lib/s3";
+import { listDirectoryArrayPaths } from "../../lib/crawler";
 
 export default function Directory(props: {
   currentPath: string[];
@@ -40,7 +39,7 @@ export default function Directory(props: {
                       </span>
                       <Link
                         href="/posts/[...id]"
-                        as={`/${posixCurrentPath}/${data.fileName}`}
+                        as={`/posts/${posixCurrentPath}/${data.fileName}`}
                       >
                         <a>{data.title}</a>
                       </Link>
@@ -104,13 +103,9 @@ export default function Directory(props: {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await getDirectoryPathArray();
-  paths.shift()
-  paths.map(path => {
-    console.log(path.params.directory)
-  })
+  const arrayPaths = await listDirectoryArrayPaths();
   return {
-    paths: paths,
+    paths: arrayPaths,
     fallback: false,
   };
 };

@@ -4,7 +4,7 @@ import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
 import path from "path";
-import { getDirectoryPathArray } from "../../lib/crawler";
+import { listDirectoryArrayPaths } from "../../lib/crawler";
 import { fetchDirectoryContents } from "lib/s3";
 
 export default function RootDirectory(props: { directoryNames: string[] }) {

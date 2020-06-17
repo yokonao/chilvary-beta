@@ -2,7 +2,7 @@ import Layout from "components/layout";
 import { getPostData } from "lib/posts";
 import Head from "next/head";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { getFilePathArray } from "lib/crawler";
+import { listFileArrayPaths } from "lib/crawler";
 
 export default function Post({
   postData,
@@ -17,7 +17,7 @@ export default function Post({
   return (
     <Layout>
       <Head>
-        <title>{postData.title || ''}</title>
+        <title>{postData.title || ""}</title>
       </Head>
       <div className="container is-fluid">
         <div className="columns">
@@ -31,7 +31,7 @@ export default function Post({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await getFilePathArray();
+  const paths = await listFileArrayPaths();
   return {
     paths: paths,
     fallback: false,

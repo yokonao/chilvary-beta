@@ -1,22 +1,16 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
-import remark from "remark";
 import { fetchDirectoryContents, fetchFileContents } from "lib/s3";
+import { toPosix } from "./converter";
 
 export async function getDirectoryData(directoryPath: string[]) {
-  let posixPath: string;
-  if (directoryPath[0] == "") {
-    posixPath = "";
-  } else {
-    posixPath = path.join(...directoryPath, "/");
-  }
-  const directoryContents = await fetchDirectoryContents(posixPath);
-  const files = directoryContents.files;
-  const result = files.map(async (file) => {
-    const filePosixPath = path.join(...file) + ".md";
+  const posixPath = toPosix(directoryPath, "/")
+  const contents = await fetchDirectoryContents(posixPath);
+  
+  const result = contents.files.map(async (file) => {
+    const filePosixPath = toPosix(file, ".md");
     const fileContents = await fetchFileContents(filePosixPath);
     const matterResult = matter(fileContents);
+
     return {
       fileName: file[file.length - 1],
       ...(matterResult.data as {
@@ -28,8 +22,7 @@ export async function getDirectoryData(directoryPath: string[]) {
   });
   const fileData = await Promise.all(result);
 
-  const directories = directoryContents.directories;
-  const directoryNames = directories.map((dir) => {
+  const directoryNames = contents.directories.map((dir) => {
     return dir[dir.length - 1];
   });
 

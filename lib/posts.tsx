@@ -13,7 +13,7 @@ export async function getPostData(id: string | string[]) {
     var fullPath = path.join(...id);
   }
   // const fileContents = fs.readFileSync(fullPath, "utf8");
-  console.log(fullPath)
+
   const fileContents = await fetchFileContents(fullPath);
 
   // Use gray-matter to parse the post metadata section
