@@ -365,3 +365,13 @@ em{
   font-style: normal;
   font-weight: bolder;
 }
+
+.fix-height{
+  height: 370px;
+}
+
+.fix-bottom{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

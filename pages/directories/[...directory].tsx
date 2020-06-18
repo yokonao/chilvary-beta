@@ -4,16 +4,12 @@ import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
 import path from "path";
-import { listDirectoryArrayPaths } from "../../lib/crawler";
+import { listDirectoryArrayPaths } from "lib/crawler";
+import { FileData } from "interfaces/file_data"
 
 export default function Directory(props: {
   currentPath: string[];
-  fileData: {
-    title: string;
-    author: string;
-    description: string;
-    fileName: string;
-  }[];
+  filesData: FileData[];
   directoryNames: string[];
 }) {
   const posixCurrentPath = path.join(...props.currentPath);
@@ -32,7 +28,7 @@ export default function Directory(props: {
               <nav className="panel">
                 <p className="panel-heading">Files</p>
                 <ul>
-                  {props.fileData.map((data) => (
+                  {props.filesData.map((data) => (
                     <li className="panel-block" key={data.fileName}>
                       <span className="panel-icon">
                         <i className="fas fa-file"></i>
@@ -78,14 +74,14 @@ export default function Directory(props: {
 
       <div className="container is-fluid px-4 py-4">
         <div className="columns is-multiline is-vcentered">
-          {props.fileData.map((data) => (
+          {props.filesData.map((data) => (
             <div className="column is-one-third-desktop is-half-tablet">
-              <div className="card">
+              <div className="card fix-height">
                 <div className="card-content">
                   <p className="title">{data.title}</p>
                   <p>{data.description}</p>
                 </div>
-                <div className="card-footer has-text-justified">
+                <div className="has-text-justified fix-bottom">
                   <Link
                     href="/posts/[...id]"
                     as={`/posts/${posixCurrentPath}/${data.fileName}`}
@@ -118,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       currentPath: params.directory,
-      fileData: directoryData.fileData,
+      filesData: directoryData.filesData,
       directoryNames: directoryData.directoryNames,
     },
   };
