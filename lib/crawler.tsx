@@ -8,8 +8,8 @@ async function listAllFilesAndDirectories() {
   let queue: string[][] = [[""]]; //corresponding to root directory
 
   while (queue.length != 0) {
-    const searchDirectory = queue.shift();
-    const posixPath = toPosix(searchDirectory, "/");
+    const target = queue.shift();
+    const posixPath = toPosix(target, "/");
     const directoryContents = await fetchDirectoryContents(posixPath);
 
     queue = [...queue, ...directoryContents.directories]
