@@ -15,7 +15,7 @@ export default function Post({
   };
   }) {
   console.log("in progress...")
-  console.log(postData.title)
+  console.log(postData.description)
   return (
     <Layout>
       <Head>
