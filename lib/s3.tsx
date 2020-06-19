@@ -15,7 +15,7 @@ var s3 = new AWS.S3();
 
 // you should use PosixPath to specify an argument in fetching functions from S3
 // an argument must end with "/"
-// specify an argument as [""] to check root directory in S3
+// you can use [""] as posixPath to check root directory in S3
 
 export async function fetchFileContents(posixPath: string) {
   var params = {

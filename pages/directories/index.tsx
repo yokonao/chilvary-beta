@@ -1,11 +1,8 @@
-import { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticProps } from "next";
 import { getDirectoryData } from "lib/directory";
 import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
-import path from "path";
-import { listDirectoryArrayPaths } from "../../lib/crawler";
-import { fetchDirectoryContents } from "lib/s3";
 
 export default function RootDirectory(props: { directoryNames: string[] }) {
   return (
@@ -53,5 +50,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       directoryNames: directoryData.directoryNames,
     },
+    unstable_revalidate: 30
   };
 };

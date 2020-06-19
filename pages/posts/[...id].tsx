@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await listFileArrayPaths();
   return {
     paths: paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -44,5 +44,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       postData,
     },
+    unstable_revalidate: 30
   };
 };
