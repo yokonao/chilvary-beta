@@ -13,7 +13,9 @@ export default function Post({
     description: string;
     contentHtml: string;
   };
-}) {
+  }) {
+  console.log("in progress...")
+  console.log(postData.title)
   return (
     <Layout>
       <Head>
@@ -44,6 +46,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       postData,
     },
-    unstable_revalidate: 30
+    unstable_revalidate: 30,
   };
 };
