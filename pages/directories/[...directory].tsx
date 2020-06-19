@@ -120,5 +120,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       filesData: directoryData.filesData,
       directoryNames: directoryData.directoryNames,
     },
+    unstable_revalidate: 10
   };
 };
