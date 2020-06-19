@@ -105,7 +105,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const arrayPaths = await listDirectoryArrayPaths();
   return {
     paths: arrayPaths,
-    fallback: true,
+    fallback: false,
   };
 };
 

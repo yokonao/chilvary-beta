@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await listFileArrayPaths();
   return {
     paths: paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
