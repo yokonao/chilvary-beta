@@ -3,6 +3,7 @@ import { getPostData } from "lib/posts";
 import Head from "next/head";
 import { GetStaticProps, GetStaticPaths } from "next";
 import { listFileArrayPaths } from "lib/crawler";
+import { useRouter } from "next/router"
 
 export default function Post({
   postData,
@@ -14,6 +15,12 @@ export default function Post({
     contentHtml: string;
   };
   }) {
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <div>Loading</div>
+  }
+  
   return (
     <Layout>
       <Head>
