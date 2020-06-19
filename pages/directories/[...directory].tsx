@@ -5,7 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import path from "path";
 import { listDirectoryArrayPaths } from "lib/crawler";
-import { FileData } from "interfaces/file_data"
+import { FileData } from "interfaces/file_data";
 
 export default function Directory(props: {
   currentPath: string[];
@@ -75,7 +75,10 @@ export default function Directory(props: {
       <div className="container is-fluid px-4 py-4">
         <div className="columns is-multiline is-vcentered">
           {props.filesData.map((data) => (
-            <div className="column is-one-third-desktop is-half-tablet" key={data.fileName}>
+            <div
+              className="column is-one-third-desktop is-half-tablet"
+              key={data.fileName}
+            >
               <div className="card fix-height">
                 <div className="card-content">
                   <p className="title is-4">{data.title}</p>
@@ -102,7 +105,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const arrayPaths = await listDirectoryArrayPaths();
   return {
     paths: arrayPaths,
-    fallback: true,
+    fallback: false,
   };
 };
 
@@ -117,6 +120,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       filesData: directoryData.filesData,
       directoryNames: directoryData.directoryNames,
     },
-    unstable_revalidate: 30
   };
 };

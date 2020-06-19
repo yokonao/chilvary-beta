@@ -50,6 +50,5 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       directoryNames: directoryData.directoryNames,
     },
-    unstable_revalidate: 30
   };
 };
