@@ -13,7 +13,9 @@ export default function Post({
     description: string;
     contentHtml: string;
   };
-}) {
+  }) {
+  console.log("in progress...")
+  console.log(postData.description)
   return (
     <Layout>
       <Head>
