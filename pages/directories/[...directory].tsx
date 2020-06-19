@@ -3,6 +3,7 @@ import { getDirectoryData } from "lib/directory";
 import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import path from "path";
 import { listDirectoryArrayPaths } from "lib/crawler";
 import { FileData } from "interfaces/file_data";
@@ -12,6 +13,12 @@ export default function Directory(props: {
   filesData: FileData[];
   directoryNames: string[];
 }) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading</div>;
+  }
+
   const posixCurrentPath = path.join(...props.currentPath);
   return (
     <Layout>
@@ -105,7 +112,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const arrayPaths = await listDirectoryArrayPaths();
   return {
     paths: arrayPaths,
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -120,6 +127,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       filesData: directoryData.filesData,
       directoryNames: directoryData.directoryNames,
     },
-    unstable_revalidate: 10
+    unstable_revalidate: 10,
   };
 };
