@@ -4,7 +4,7 @@ import { toPosix } from "lib/converter";
 import { MetaData } from "interfaces/metadata";
 import { DirectoryData } from "interfaces/directory_data"
 
-export async function getDirectoryData(directoryPath: string[]):Promise<DirectoryData> {
+export async function getDirectoryData(directoryPath: Readonly<string[]>):Promise<DirectoryData> {
   const posixPath = toPosix(directoryPath, "/");
   const contents = await fetchDirectoryContents(posixPath);
 

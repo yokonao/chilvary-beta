@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import Navbar from "components/navbar";
 
 export const siteTitle = "Next.js Sample Website";
 
@@ -24,29 +25,9 @@ export default function Layout({
         ></script>
       </Head>
       <header>
-        <div className="navbar is-dark is-bold">
-          <div className="navbar-menu">
-            <div className="navbar-start">
-              <div className="navbar-item">
-                <div className="button is-dark is-inverted">
-                  <div>
-                    <Link href="/">
-                      <a>
-                        <span className="icon has-text-dark">
-                          <i className="fas fa-lg fa-home"></i>
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Navbar />
       </header>
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
     </div>
   );
 }
