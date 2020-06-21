@@ -9,6 +9,7 @@ import { listDirectoryArrayPaths } from "lib/crawler";
 import { FileData } from "interfaces/file_data";
 
 export default function Directory(props: {
+  nowTime: string;
   currentPath: string[];
   filesData: FileData[];
   directoryNames: string[];
@@ -25,6 +26,7 @@ export default function Directory(props: {
       <Head>
         <title>{props.currentPath.slice(-1)[0]}</title>
       </Head>
+      <div className="title">{props.nowTime}</div>
       <div className="container is-fluid mt-4">
         <div className="title">{props.currentPath.slice(-1)[0]}</div>
       </div>
@@ -121,8 +123,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     params.directory = [params.directory];
   }
   const directoryData = await getDirectoryData(params.directory);
+  const jikan = new Date();
+
+  //時・分・秒を取得する
+  const hour = jikan.getHours();
+  const minute = jikan.getMinutes();
+  const second = jikan.getSeconds();
+  const nowTime = hour + "時" + minute + "分" + second + "秒";
+
   return {
     props: {
+      nowTime: nowTime,
       currentPath: params.directory,
       filesData: directoryData.filesData,
       directoryNames: directoryData.directoryNames,
