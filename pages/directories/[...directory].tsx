@@ -6,13 +6,16 @@ import Link from "next/link";
 import path from "path";
 import { listDirectoryArrayPaths } from "lib/crawler";
 import { FileData } from "interfaces/file_data";
+import Directories from "components/directories";
+import Files from "components/files";
+import Cards from "components/cards";
 
 export default function Directory(props: {
   currentPath: string[];
   filesData: FileData[];
   directoryNames: string[];
 }) {
-  const posixCurrentPath = path.join(...props.currentPath);
+  const posixCurrentPath = path.join(...props.currentPath) + "/";
   return (
     <Layout>
       <Head>
@@ -24,79 +27,20 @@ export default function Directory(props: {
       <div className="container is-fluid">
         <div className="columns">
           <div className="column">
-            <section className="section">
-              <nav className="panel">
-                <p className="panel-heading">Files</p>
-                <ul>
-                  {props.filesData.map((data) => (
-                    <li className="panel-block" key={data.fileName}>
-                      <span className="panel-icon">
-                        <i className="fas fa-file"></i>
-                      </span>
-                      <Link
-                        href="/posts/[...id]"
-                        as={`/posts/${posixCurrentPath}/${data.fileName}`}
-                      >
-                        <a>{data.title}</a>
-                      </Link>
-                      <br />
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </section>
+            <Files
+              posixCurrentPath={posixCurrentPath}
+              array={props.filesData}
+            />
           </div>
           <div className="column">
-            <section className="section">
-              <nav className="panel">
-                <p className="panel-heading">Directories</p>
-                <ul>
-                  {props.directoryNames.map((dirName) => (
-                    <li className="panel-block" key={dirName}>
-                      <span className="panel-icon">
-                        <i className="fas fa-folder"></i>
-                      </span>
-                      <Link
-                        href="/directories/[...directory]"
-                        as={`/directories/${posixCurrentPath}/${dirName}`}
-                      >
-                        <a>{dirName}</a>
-                      </Link>
-                      <br />
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </section>
+            <Directories
+              posixCurrentPath={posixCurrentPath}
+              array={props.directoryNames}
+            />
           </div>
         </div>
       </div>
-
-      <div className="container is-fluid px-4 py-4">
-        <div className="columns is-multiline is-vcentered">
-          {props.filesData.map((data) => (
-            <div
-              className="column is-one-third-desktop is-half-tablet"
-              key={data.fileName}
-            >
-              <div className="card fix-height">
-                <div className="card-content">
-                  <p className="title is-4">{data.title}</p>
-                  <p>{data.description}</p>
-                </div>
-                <div className="has-text-justified fix-bottom">
-                  <Link
-                    href="/posts/[...id]"
-                    as={`/posts/${posixCurrentPath}/${data.fileName}`}
-                  >
-                    <a className="button is-fullwidth is-large is-link">View</a>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Cards posixCurrentPath={posixCurrentPath} array={props.filesData} />
     </Layout>
   );
 }

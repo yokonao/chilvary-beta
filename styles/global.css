@@ -161,6 +161,18 @@ table {
   font-size: 1em;
   width: 70%;
 }
+@media screen and (max-width: 1024px) {
+  table {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  table {
+    width: 100%;
+  }
+}
+
 thead th,
 tfoot th {
   padding: 0.25em 0.25em 0.25em 0.4em;

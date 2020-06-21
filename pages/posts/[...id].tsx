@@ -5,9 +5,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { listFileArrayPaths } from "lib/crawler";
 import { PostData } from "interfaces/post_data";
 
-export default function Post(props:{postData:PostData}) {
-  console.log("in progress...");
-  console.log(props.postData.description);
+export default function Post(props: { postData: PostData }) {
   return (
     <Layout>
       <Head>
@@ -16,7 +14,9 @@ export default function Post(props:{postData:PostData}) {
       <div className="container is-fluid">
         <div className="columns">
           <div className="column is-10-tablet is-offset-1-tablet is-8-desktop is-offset-2-desktop">
-            <div dangerouslySetInnerHTML={{ __html: props.postData.contentHtml }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: props.postData.contentHtml }}
+            />
           </div>
         </div>
       </div>

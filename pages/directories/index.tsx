@@ -3,6 +3,7 @@ import { getDirectoryData } from "lib/directory";
 import Layout from "components/layout";
 import Head from "next/head";
 import Link from "next/link";
+import Directories from "components/directories"
 
 export default function RootDirectory(props: { directoryNames: string[] }) {
   return (
@@ -16,27 +17,7 @@ export default function RootDirectory(props: { directoryNames: string[] }) {
       <div className="container is-fluid">
         <div className="columns">
           <div className="column">
-            <section className="section">
-              <nav className="panel">
-                <p className="panel-heading">Directories</p>
-                <ul>
-                  {props.directoryNames.map((dirName) => (
-                    <li className="panel-block" key={dirName}>
-                      <span className="panel-icon">
-                        <i className="fas fa-folder"></i>
-                      </span>
-                      <Link
-                        href="/directories/[...directory]"
-                        as={`/directories/${dirName}`}
-                      >
-                        <a>{dirName}</a>
-                      </Link>
-                      <br />
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </section>
+            <Directories posixCurrentPath= "" array={props.directoryNames}/>
           </div>
         </div>
       </div>
