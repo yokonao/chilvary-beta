@@ -1,6 +1,6 @@
 import path from "path";
 
-export function toPosix(array: string[], suffix: string) {
+export function toPosix(array: Readonly<string[]>, suffix: Readonly<string>) {
   if (array[0] == "") {
     return "";
   } else {
@@ -9,7 +9,7 @@ export function toPosix(array: string[], suffix: string) {
 }
 
 // convert PosixPath to ArrayPath
-export function toArray(posix: string) {
+export function toArray(posix: Readonly<string>) {
   if (posix.endsWith("/")) {
     let array = posix.split("/");
     array.pop();

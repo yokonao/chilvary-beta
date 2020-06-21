@@ -3,16 +3,16 @@ import matter from "gray-matter";
 import remark from "remark";
 import html from "remark-html";
 import { fetchFileContents } from "lib/s3";
+import { MetaData } from "interfaces/metadata";
 
-export async function getPostData(id: string | string[]) {
+export async function getPostData(id: Readonly<string | string[]>) {
+  let fullPath: string;
   if ("string" === typeof id) {
     id += ".md";
-    var fullPath = id;
+    fullPath = id;
   } else {
-    id[id.length - 1] += ".md";
-    var fullPath = path.join(...id);
+    fullPath = path.join(...id) + ".md";
   }
-  // const fileContents = fs.readFileSync(fullPath, "utf8");
 
   const fileContents = await fetchFileContents(fullPath);
 
@@ -27,12 +27,7 @@ export async function getPostData(id: string | string[]) {
 
   // Combine the data with the id and contentHtml
   return {
-    id,
     contentHtml,
-    ...(matterResult.data as {
-      title: string;
-      author: string;
-      description: string;
-    }),
+    ...(matterResult.data as MetaData),
   };
 }

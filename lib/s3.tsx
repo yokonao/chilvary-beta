@@ -17,7 +17,7 @@ var s3 = new AWS.S3();
 // an argument must end with "/"
 // you can use [""] as posixPath to check root directory in S3
 
-export async function fetchFileContents(posixPath: string) {
+export async function fetchFileContents(posixPath: Readonly<string>) {
   var params = {
     Bucket: "chilvary-s3",
     Key: posixPath,
@@ -30,7 +30,7 @@ export async function fetchFileContents(posixPath: string) {
   }
 }
 
-export async function fetchDirectoryContents(posixPath: string) {
+export async function fetchDirectoryContents(posixPath: Readonly<string>) {
   var params = {
     Bucket: "chilvary-s3",
     Prefix: posixPath,
