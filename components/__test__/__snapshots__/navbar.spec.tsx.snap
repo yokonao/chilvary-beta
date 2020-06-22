@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppTitle 1`] = `
+<div
+  className="navbar is-dark is-bold"
+>
+  <div
+    className="navbar-menu"
+  >
+    <div
+      className="navbar-start"
+    >
+      <div
+        className="navbar-item"
+      >
+        <div
+          className="button is-dark is-inverted"
+        >
+          <div>
+            <a
+              href="/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              <span
+                className="icon has-text-dark"
+              >
+                <i
+                  className="fas fa-lg fa-home"
+                />
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
