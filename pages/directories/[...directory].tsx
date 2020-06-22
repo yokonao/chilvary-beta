@@ -9,6 +9,7 @@ import { FileData } from "interfaces/file_data";
 import Directories from "components/directories";
 import Files from "components/files";
 import Cards from "components/cards";
+import Breadcrumb from "components/breadcrumb"
 
 export default function Directory(props: {
   currentPath: string[];
@@ -21,6 +22,7 @@ export default function Directory(props: {
       <Head>
         <title>{props.currentPath.slice(-1)[0]}</title>
       </Head>
+      <Breadcrumb currentPath={props.currentPath}/>
       <div className="container is-fluid mt-4">
         <div className="title">{props.currentPath.slice(-1)[0]}</div>
       </div>
