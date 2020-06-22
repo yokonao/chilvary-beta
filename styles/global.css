@@ -176,7 +176,6 @@ table {
 thead th,
 tfoot th {
   padding: 0.25em 0.25em 0.25em 0.4em;
-  text-transform: uppercase;
 }
 th {
   text-align: left;
